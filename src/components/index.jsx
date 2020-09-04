@@ -1,3 +1,4 @@
 import Calendar from './Calendar';
+import Header from './Header';
 
-export {Calendar};
+export { Calendar, Header };

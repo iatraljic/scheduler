@@ -6,6 +6,32 @@
   color: #ffffff;
 }
 
+.calendar-header button {
+  background: linear-gradient(to bottom, #33bdef 5%, #019ad2 100%);
+  background-color: #33bdef;
+  border-radius: 3px;
+  display: inline-block;
+  cursor: pointer;
+  color: #ffffff;
+  /* font-family:Arial; */
+  font-size: 15px;
+  font-weight: bold;
+  padding: 6px 24px;
+  text-decoration: none;
+  border: 1px solid transparent;
+}
+
+.calendar-header button:hover {
+  background: linear-gradient(to bottom, #019ad2 5%, #33bdef 100%);
+  background-color: #019ad2;
+}
+
+.calendar-header button:active,
+.calendar-header button:focus {
+  border: 1px solid #eeeeee;
+  outline: none;
+}
+
 .calendar-table {
   display: block;
   width: 100%;
@@ -29,38 +55,17 @@
   color: #777;
   border: 0.1rem solid #d6d6d6;
   height: 3rem;
-  width: 14%;
-  min-width: 14%;
+  width: 13%;
+  min-width: 13%;
 }
-.calendar-table th:first-child,
-.calendar-table th:last-child,
-.calendar-table td:last-child {
-  width: 8%;
-  min-width: 8%;
+.calendar-table th:first-child {
+  width: 9%;
+  min-width: 9%;
 }
 
 .calendar-table th {
   vertical-align: bottom;
   font-weight: normal;
-}
-
-/* .calendar-table tr:nth-child(even) th[scope='row'] {
-  background-color: #f2f2f2;
-}
-
-.calendar-table tr:nth-child(odd) th[scope='row'] {
-  background-color: #fff;
-}
-
-.calendar-table tr:nth-child(even) {
-  background-color: rgba(0, 0, 0, 0.05);
-}
-
-.calendar-table tr:nth-child(odd) {
-  background-color: rgba(255, 255, 255, 0.05);
-} */
-
-.calendar-table th {
   position: -webkit-sticky;
   position: sticky;
   top: 0;

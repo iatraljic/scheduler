@@ -1,11 +1,11 @@
 const weekDays = [
+  'Nedjelja',
   'Ponedjeljak',
   'Utorak',
   'Srijeda',
   'Četvrtak',
   'Petak',
   'Subota',
-  'Nedjelja',
 ];
 
 const workHoursTemplate = {

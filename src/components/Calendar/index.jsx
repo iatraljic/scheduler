@@ -1,6 +1,6 @@
 import React from 'react';
-
 import { useTable } from '../../hooks';
+import { Header } from '..';
 
 import './index.css';
 
@@ -9,7 +9,7 @@ function Calendar() {
 
   return (
     <>
-      <div className="calendar-header">Header</div>
+      <Header />
       <div className="calendar-table">
         <table>
           <thead>

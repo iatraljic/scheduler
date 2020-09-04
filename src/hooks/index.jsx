@@ -1,43 +1,37 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useContext } from 'react';
+import { MainContext, SET_FIRST_DAY } from '../context';
+import { getTomorrow, formatTime, toISODateString, isEven } from '../utils';
+
 import { weekDays, workHoursTemplate } from '../constants';
 
 export function useTable({
-  workDayStart = 8, // Start of working time
-  workDayEnd = 19, // do koliko sati su termini, sati
-  appointmentDuration = 0.5, // appointment appointmentDuration
-  workHours = workHoursTemplate, // off hours per day
+  workDayStart = 8,
+  workDayEnd = 19,
+  appointmentDuration = 0.5,
+  workHours = workHoursTemplate,
 }) {
+  const {
+    state: { firstDay },
+    dispatch,
+  } = useContext(MainContext);
+
   const [today, setToday] = useState();
-  const [monday, setMonday] = useState();
   const [header, setHeader] = useState([]);
   const [rows, setRows] = useState([]);
 
-  // ********************************************
-  // ***** Set today i monday
   useEffect(() => {
-    const today = new Date();
-    const monday = new Date();
-    let daysFromMonday = today.getDay() - 1;
+    console.log('Setira today i firstDay');
+    setToday(new Date());
+    dispatch({ type: SET_FIRST_DAY, payload: getTomorrow() });
+  }, [dispatch]);
 
-    if (daysFromMonday < 0) {
-      daysFromMonday = 6;
-    }
-
-    monday.setDate(today.getDate() - daysFromMonday);
-
-    setToday(today);
-    setMonday(monday);
-  }, []);
-
-  // ********************************************
-  // ***** Set header
   useEffect(() => {
-    if (monday === undefined || today === undefined) {
+    if (firstDay === undefined || today === undefined) {
       return;
     }
 
     let tableHeader = [];
-    const dateIterator = new Date(monday);
+    const dateIterator = new Date(firstDay);
 
     tableHeader = weekDays.map((el, index) => {
       let cell = (
@@ -60,12 +54,10 @@ export function useTable({
     tableHeader.unshift(<th key={0}></th>);
 
     setHeader([...tableHeader]);
-  }, [monday, today]);
+  }, [firstDay, today]);
 
-  // ********************************************
-  // ***** Set rows
   useEffect(() => {
-    if (monday === undefined || today === undefined) {
+    if (firstDay === undefined || today === undefined) {
       return;
     }
 
@@ -80,7 +72,7 @@ export function useTable({
       let tableColumns = [];
       const formatedTime = formatTime(time);
       const formatedNextTime = formatTime(time + appointmentDuration);
-      const dateIterator = new Date(monday);
+      const dateIterator = new Date(firstDay);
 
       tableColumns = weekDays.map((el, index) => {
         let isInactive = false;
@@ -137,25 +129,14 @@ export function useTable({
     }
 
     setRows([...arr]);
-  }, [workHours, appointmentDuration, workDayStart, workDayEnd, monday, today]);
-
-  // ********************************************
-  // ***** Format time to HH:mm
-  const formatTime = (timeFloat) => {
-    const hour = Math.floor(timeFloat);
-    const min = Math.floor((timeFloat - hour) * 60);
-    return `${hour < 10 ? '0' : ''}${hour}:${min < 10 ? '0' : ''}${min}`;
-  };
-
-  // ********************************************
-  // ***** Converts date to string 'YYYY-MM-DD'
-  const toISODateString = (date) => {
-    return date.toISOString().substr(0, 10);
-  };
-
-  // ********************************************
-  // ***** Checks if day is even
-  const isEven = (n) => n % 2 === 0;
+  }, [
+    workHours,
+    appointmentDuration,
+    workDayStart,
+    workDayEnd,
+    firstDay,
+    today,
+  ]);
 
   return {
     header,
