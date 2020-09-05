@@ -1,6 +1,6 @@
 import React from 'react';
-import { Calendar } from './components';
-import { getTomorrow } from './utils';
+import { Calendar } from './features/calendar/components';
+import { getTomorrow } from './shared/utils';
 
 function App() {
   return <Calendar startDay={getTomorrow()} />;

@@ -1,5 +1,5 @@
 import React from 'react';
-import CalendarContextProvider from './context';
+import CalendarContextProvider from '../../context';
 import { CalendarHeader, CalendarTable } from '..';
 
 import './index.css';

@@ -1,8 +1,9 @@
 import React, { useState, useEffect, useContext } from 'react';
-import { CalendarContext, SET_FIRST_DAY } from '../components/Calendar/context';
-import { formatTime, toISODateString, isEven } from '../utils';
+import { CalendarContext, SET_FIRST_DAY } from '../context';
+import { formatTime, toISODateString, isEven } from '../../../shared/utils';
+import { CalendarCell } from '../components';
 
-import { weekDays, workHoursTemplate } from '../constants';
+import { initialWeekDays, workHoursTemplate } from '../../../shared/constants';
 
 export function useTable({
   startDay,
@@ -12,7 +13,7 @@ export function useTable({
   workHours = workHoursTemplate,
 }) {
   const {
-    state: { firstDay },
+    state: { firstDay, weekDays },
     dispatch,
   } = useContext(CalendarContext);
 
@@ -36,26 +37,23 @@ export function useTable({
 
     tableHeader = weekDays.map((el, index) => {
       let cell = (
-        <th
+        <CalendarCell
           key={index + 1}
-          className={`${
-            toISODateString(dateIterator) === toISODateString(today)
-              ? 'today'
-              : ''
-          }`}
+          type="colHeader"
+          isNow={toISODateString(dateIterator) === toISODateString(today)}
         >
           <div className="day">{el}</div>
           <div className="date">{`${dateIterator.getDate()}.`}</div>
-        </th>
+        </CalendarCell>
       );
       dateIterator.setDate(dateIterator.getDate() + 1);
       return cell;
     });
 
-    tableHeader.unshift(<th key={0}></th>);
+    tableHeader.unshift(<CalendarCell key={0} type="colHeader" />);
 
     setHeader([...tableHeader]);
-  }, [firstDay, today]);
+  }, [firstDay, today, weekDays]);
 
   useEffect(() => {
     if (firstDay === undefined || today === undefined) {
@@ -104,26 +102,17 @@ export function useTable({
 
         dateIterator.setDate(dateIterator.getDate() + 1);
 
-        return (
-          <td
-            key={`${time}${index}`}
-            className={`${isInactive ? 'inactive' : ''}`}
-          ></td>
-        );
+        return <CalendarCell key={`${time}${index}`} isInactive={isInactive} />;
       });
 
       tableColumns.unshift(
-        <th
-          scope="row"
+        <CalendarCell
           key={0}
-          className={`${
-            formatedTime < localTime && formatedNextTime > localTime
-              ? 'now'
-              : ''
-          }`}
+          type="rowHeader"
+          isNow={formatedTime <= localTime && formatedNextTime > localTime}
         >
           {formatedTime}
-        </th>
+        </CalendarCell>
       );
 
       arr.push(tableColumns);
@@ -137,6 +126,7 @@ export function useTable({
     workDayEnd,
     firstDay,
     today,
+    weekDays,
   ]);
 
   return {

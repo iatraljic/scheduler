@@ -1,4 +1,4 @@
-const weekDays = [
+const initialWeekDays = [
   'Nedjelja',
   'Ponedjeljak',
   'Utorak',
@@ -21,4 +21,4 @@ const workHoursTemplate = {
   },
 };
 
-export { weekDays, workHoursTemplate };
+export { initialWeekDays, workHoursTemplate };
