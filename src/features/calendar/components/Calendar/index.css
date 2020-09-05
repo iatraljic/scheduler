@@ -9,8 +9,19 @@
 }
 
 .calendar-header .title {
+  display: flex;
+  align-items: flex-end;
+  flex: 1;
   width: 100%;
-  font-size: 1.5rem;
+  font-size: 1.3rem;
+}
+
+.calendar-header .left-padding {
+  width: 0.5rem;
+}
+
+.calendar-header img {
+  height: 2rem;
 }
 
 .calendar-header button {
