@@ -1,14 +1,14 @@
 import React, { useContext } from 'react';
 import {
-  MainContext,
+  CalendarContext,
   NEXT_DAY,
   PREV_DAY,
   NEXT_WEEK,
   PREV_WEEK,
-} from '../../context';
+} from '../Calendar/context';
 
-function Header() {
-  const { dispatch } = useContext(MainContext);
+function CalendarHeader() {
+  const { dispatch } = useContext(CalendarContext);
 
   return (
     <div className="calendar-header">
@@ -20,4 +20,4 @@ function Header() {
   );
 }
 
-export default Header;
+export default CalendarHeader;

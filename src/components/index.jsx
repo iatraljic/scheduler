@@ -1,4 +1,6 @@
 import Calendar from './Calendar';
-import Header from './Header';
+import CalendarHeader from './CalendarHeader';
+import CalendarTable from './CalendarTable';
+import CalendarCell from './CalendarCell';
 
-export { Calendar, Header };
+export { Calendar, CalendarHeader, CalendarTable, CalendarCell };

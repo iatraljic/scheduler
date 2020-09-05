@@ -1,10 +1,11 @@
 import React, { useState, useEffect, useContext } from 'react';
-import { MainContext, SET_FIRST_DAY } from '../context';
-import { getTomorrow, formatTime, toISODateString, isEven } from '../utils';
+import { CalendarContext, SET_FIRST_DAY } from '../components/Calendar/context';
+import { formatTime, toISODateString, isEven } from '../utils';
 
 import { weekDays, workHoursTemplate } from '../constants';
 
 export function useTable({
+  startDay,
   workDayStart = 8,
   workDayEnd = 19,
   appointmentDuration = 0.5,
@@ -13,7 +14,7 @@ export function useTable({
   const {
     state: { firstDay },
     dispatch,
-  } = useContext(MainContext);
+  } = useContext(CalendarContext);
 
   const [today, setToday] = useState();
   const [header, setHeader] = useState([]);
@@ -22,8 +23,8 @@ export function useTable({
   useEffect(() => {
     console.log('Setira today i firstDay');
     setToday(new Date());
-    dispatch({ type: SET_FIRST_DAY, payload: getTomorrow() });
-  }, [dispatch]);
+    dispatch({ type: SET_FIRST_DAY, payload: startDay });
+  }, [dispatch, startDay]);
 
   useEffect(() => {
     if (firstDay === undefined || today === undefined) {
