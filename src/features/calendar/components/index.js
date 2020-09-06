@@ -1,6 +1,6 @@
-import Calendar from './Calendar';
 import CalendarHeader from './CalendarHeader';
 import CalendarTable from './CalendarTable';
 import CalendarCell from './CalendarCell';
+import Modal from './Modal';
 
-export { Calendar, CalendarHeader, CalendarTable, CalendarCell };
+export { CalendarHeader, CalendarTable, CalendarCell, Modal };

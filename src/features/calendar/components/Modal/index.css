@@ -1,0 +1,96 @@
+.modal {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.6);
+  z-index: 5;
+}
+
+.modal.show {
+  display: block;
+}
+
+.modal.hide {
+  display: none;
+}
+
+.modal .main {
+  position: fixed;
+  padding: 1rem;
+  width: 50%;
+  height: auto;
+  top: 50%;
+  left: 50%;
+  background: #eeeeee;
+  transform: translate(-50%, -50%);
+}
+
+.modal p {
+  margin: 0;
+  margin-bottom: 0.5rem;
+}
+
+.modal .title {
+  font-size: 1.5rem;
+  border-bottom: 1px solid #555555;
+}
+
+.modal button.ok {
+  display: block;
+  background: linear-gradient(to bottom, #89c403 5%, #77a809 100%);
+  background-color: #89c403;
+  border-radius: 3px;
+  display: inline-block;
+  cursor: pointer;
+  color: #ffffff;
+  font-weight: bold;
+  padding: 0.5rem 1rem;
+  text-decoration: none;
+  /* border: 1px solid transparent; */
+  border: none;
+  margin: 4px 1px;
+  min-width: 4rem;
+}
+
+.modal button.ok:hover {
+  background: linear-gradient(to bottom, #77a809 5%, #89c403 100%);
+  background-color: #77a809;
+}
+
+.modal button.ok:active,
+.modal button.ok:focus {
+  /* border: 1px solid #eeeeee; */
+  border: none;
+  outline: none;
+}
+
+.modal button.cancel {
+  display: block;
+  background: linear-gradient(to bottom, #fc8d83 5%, #e4685d 100%);
+  background-color: #fc8d83;
+  border-radius: 3px;
+  display: inline-block;
+  cursor: pointer;
+  color: #ffffff;
+  font-weight: bold;
+  padding: 0.5rem 1rem;
+  text-decoration: none;
+  /* border: 1px solid transparent; */
+  border: none;
+  margin: 4px 1px;
+  min-width: 4rem;
+}
+
+.modal button.cancel:hover {
+  background: linear-gradient(to bottom, #e4685d 5%, #fc8d83 100%);
+  background-color: #e4685d;
+}
+
+.modal button.cancel:active,
+.modal button.cancel:focus {
+  /* border: 1px solid #eeeeee; */
+  border: none;
+  outline: none;
+}

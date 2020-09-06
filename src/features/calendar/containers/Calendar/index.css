@@ -1,3 +1,5 @@
+/* **********************************************
+***** CalendarHeader */
 .calendar-header {
   display: flex;
   flex-direction: column;
@@ -53,6 +55,8 @@
   outline: none;
 }
 
+/* **********************************************
+***** CalendarTable */
 .calendar-table {
   display: block;
   width: 100%;
@@ -112,6 +116,24 @@
   z-index: 3;
 }
 
+/* **********************************************
+***** CalendarCell */
+.calendar-table td:hover {
+  cursor: pointer;
+}
+
+.calendar-table td.inactive:hover {
+  cursor: auto;
+}
+
+.calendar-table td.out-of-scope:hover {
+  cursor: auto;
+}
+
+.calendar-table td.other:hover {
+  cursor: auto;
+}
+
 .calendar-table .today,
 .calendar-table .now {
   background-color: #ddfabb;
@@ -119,6 +141,14 @@
 
 .calendar-table .inactive {
   background-color: #eeeeee;
+}
+
+.calendar-table .out-of-scope {
+  filter: brightness(85%);
+}
+
+.calendar-table .me {
+  background-color: #349cf1;
 }
 
 .calendar-table .day {

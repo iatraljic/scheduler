@@ -1,12 +1,18 @@
 import React, { useState, useEffect, useContext } from 'react';
 import { CalendarContext, SET_FIRST_DAY } from '../context';
-import { formatTime, toISODateString, isEven } from '../../../shared/utils';
+import {
+  formatTime,
+  toISODateString,
+  isEven,
+  getTomorrow,
+} from '../../../shared/utils';
 import { CalendarCell } from '../components';
 
-import { initialWeekDays, workHoursTemplate } from '../../../shared/constants';
+import { workHoursTemplate } from '../../../shared/constants';
 
 export function useTable({
   startDay,
+  data,
   workDayStart = 8,
   workDayEnd = 19,
   appointmentDuration = 0.5,
@@ -18,13 +24,29 @@ export function useTable({
   } = useContext(CalendarContext);
 
   const [today, setToday] = useState();
+  const [initialFirstDay, setInitialFirstDay] = useState();
+  const [initialLastDay, setInitialLastDay] = useState();
   const [header, setHeader] = useState([]);
   const [rows, setRows] = useState([]);
 
   useEffect(() => {
-    console.log('Setira today i firstDay');
+    const lastDay = new Date();
+    let date;
+
+    if (startDay === 'tomorrow') {
+      date = getTomorrow();
+    } else if (startDay === 'today') {
+      date = new Date();
+    } else {
+      date = new Date(startDay);
+    }
+
     setToday(new Date());
-    dispatch({ type: SET_FIRST_DAY, payload: startDay });
+    dispatch({ type: SET_FIRST_DAY, payload: date });
+
+    lastDay.setDate(date.getDate() + 6);
+    setInitialFirstDay(date);
+    setInitialLastDay(lastDay);
   }, [dispatch, startDay]);
 
   useEffect(() => {
@@ -75,6 +97,8 @@ export function useTable({
 
       tableColumns = weekDays.map((el, index) => {
         let isInactive = false;
+        let isOutOfScope = false;
+        let termType = 'free';
 
         if (isEven(dateIterator.getDate())) {
           if (
@@ -100,9 +124,31 @@ export function useTable({
           isInactive = true;
         }
 
+        if (
+          toISODateString(dateIterator) < toISODateString(initialFirstDay) ||
+          toISODateString(dateIterator) > toISODateString(initialLastDay)
+        ) {
+          isOutOfScope = true;
+        }
+
+        const cellId = `${toISODateString(dateIterator)}${formatedTime}`;
+        const found = data.find((element) => element.id === cellId);
+        if (found) {
+          termType = found.user;
+        }
+
         dateIterator.setDate(dateIterator.getDate() + 1);
 
-        return <CalendarCell key={`${time}${index}`} isInactive={isInactive} />;
+        return (
+          <CalendarCell
+            key={`${time}${index}`}
+            isInactive={isInactive}
+            isOutOfScope={isOutOfScope}
+            type="cell"
+            id={cellId}
+            termType={termType}
+          />
+        );
       });
 
       tableColumns.unshift(
@@ -127,6 +173,9 @@ export function useTable({
     firstDay,
     today,
     weekDays,
+    data,
+    initialFirstDay,
+    initialLastDay,
   ]);
 
   return {

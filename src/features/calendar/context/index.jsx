@@ -6,11 +6,8 @@ export const PREV_DAY = 'PREV_DAY';
 export const NEXT_DAY = 'NEXT_DAY';
 export const PREV_WEEK = 'PREV_WEEK';
 export const NEXT_WEEK = 'NEXT_WEEK';
-
-const initialState = {
-  firstDay: null,
-  weekDays: initialWeekDays,
-};
+export const CELL_CLICK = 'CELL_CLICK';
+export const CELL_FLUSH = 'CELL_FLUSH';
 
 function reducer(state, action) {
   const manipulationDay = new Date(state.firstDay);
@@ -39,11 +36,24 @@ function reducer(state, action) {
     case NEXT_WEEK:
       manipulationDay.setDate(manipulationDay.getDate() + 7);
       return { ...state, firstDay: manipulationDay };
+    case CELL_CLICK:
+      if (state.cellId !== '') {
+        return state;
+      }
+      return { ...state, cellId: action.payload };
+    case CELL_FLUSH:
+      return { ...state, cellId: '' };
+
     default:
-      // ne želimo action koji nismo definirali
       throw new Error();
   }
 }
+
+const initialState = {
+  firstDay: null,
+  weekDays: initialWeekDays,
+  cellId: '',
+};
 
 export const CalendarContext = createContext(initialState);
 
