@@ -15,7 +15,7 @@ export function getWeek(date, month) {
   for (let i = 0; i < month; i++) {
     dayOfYear += daysByMonth[i];
   }
-  dayOfYear += date - +(7 - newYearsDay.getDay());
+  dayOfYear += date + (7 - newYearsDay.getDay());
   const week = Math.floor(dayOfYear / (month + 1));
 
   return week;
