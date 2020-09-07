@@ -29,7 +29,6 @@ function isDayLimitExceeded(id, data) {
 }
 
 function isWeekLimitExceeded(week, data) {
-  console.log(data);
   const isWeekLimit =
     data.filter((el) => el.user === 'me' && week === el.week).length > 1;
   if (isWeekLimit) {
