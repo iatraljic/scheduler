@@ -7,6 +7,7 @@ import {
   PREV_WEEK,
 } from '../../context';
 import Logo from '../../images/Logo.png';
+import './index.css';
 
 function CalendarHeader() {
   const { dispatch } = useContext(CalendarContext);
@@ -14,17 +15,22 @@ function CalendarHeader() {
   return (
     <div className="calendar-header">
       <div className="title">
-        <span className="left-padding" />
         <img src={Logo} alt="Logo" />
-        <span className="left-padding" />
         Kalendar radnog vremena ordinacije
       </div>
-      <div className="title">
-        <span className="left-padding" />
-        <button onClick={() => dispatch({ type: PREV_WEEK })}>⮜⮜</button>
-        <button onClick={() => dispatch({ type: PREV_DAY })}>⮜</button>
-        <button onClick={() => dispatch({ type: NEXT_DAY })}>⮞</button>
-        <button onClick={() => dispatch({ type: NEXT_WEEK })}>⮞⮞</button>
+      <div className="navigation">
+        <button onClick={() => dispatch({ type: PREV_WEEK })}>
+          Prošli tjedan
+        </button>
+        <button onClick={() => dispatch({ type: PREV_DAY })}>
+          Jučerašnji dan
+        </button>
+        <button onClick={() => dispatch({ type: NEXT_DAY })}>
+          Sutrašnji dan
+        </button>
+        <button onClick={() => dispatch({ type: NEXT_WEEK })}>
+          Sljedeći tjedan
+        </button>
       </div>
     </div>
   );

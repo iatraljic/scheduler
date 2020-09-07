@@ -1,16 +1,20 @@
 import React, { useContext } from 'react';
 import { CalendarContext, CELL_CLICK } from '../../context';
 
+import './index.css';
+
 function CalendarCell({
   id = '',
   type = 'cell',
-  isInactive = false,
   isOutOfScope = false,
   isNow = false,
   termType = 'free',
+  week,
   children,
 }) {
   const { dispatch } = useContext(CalendarContext);
+  const isInactive = termType === 'inactive';
+  const isOther = termType === 'other';
 
   if (type === 'rowHeader') {
     return (
@@ -24,14 +28,13 @@ function CalendarCell({
 
   return (
     <td
-      className={`${termType}${isInactive ? ' inactive' : ''}${
-        isOutOfScope ? ' out-of-scope' : ''
-      }`}
+      className={`${termType}${isOutOfScope ? ' out-of-scope' : ''}`}
       onClick={() => {
-        if (isInactive || isOutOfScope) {
+        if (isInactive || isOther || isOutOfScope) {
           return;
         }
-        dispatch({ type: CELL_CLICK, payload: id });
+
+        dispatch({ type: CELL_CLICK, payload: { id, termType, week } });
       }}
     >
       {children}

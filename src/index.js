@@ -1,7 +1,7 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import App from './App';
 import MainContextProvider from './shared/context';
+import App from './App';
 
 import './index.css';
 

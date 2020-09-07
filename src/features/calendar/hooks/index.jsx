@@ -5,27 +5,30 @@ import {
   toISODateString,
   isEven,
   getTomorrow,
+  getWeek,
 } from '../../../shared/utils';
 import { CalendarCell } from '../components';
-
-import { workHoursTemplate } from '../../../shared/constants';
+import {
+  WORK_DAY_START,
+  WORK_DAY_END,
+  APPOINTMENT_DURATION,
+  workHoursTemplate,
+} from '../../../shared/constants';
 
 export function useTable({
   startDay,
   data,
-  workDayStart = 8,
-  workDayEnd = 19,
-  appointmentDuration = 0.5,
+  terminFrom = WORK_DAY_START,
+  terminTo = WORK_DAY_END,
+  duration = APPOINTMENT_DURATION,
   workHours = workHoursTemplate,
 }) {
   const {
     state: { firstDay, weekDays },
     dispatch,
   } = useContext(CalendarContext);
-
   const [today, setToday] = useState();
   const [initialFirstDay, setInitialFirstDay] = useState();
-  const [initialLastDay, setInitialLastDay] = useState();
   const [header, setHeader] = useState([]);
   const [rows, setRows] = useState([]);
 
@@ -42,11 +45,13 @@ export function useTable({
     }
 
     setToday(new Date());
-    dispatch({ type: SET_FIRST_DAY, payload: date });
+    dispatch({
+      type: SET_FIRST_DAY,
+      payload: { date: date, day: date.getDay() },
+    });
 
     lastDay.setDate(date.getDate() + 6);
     setInitialFirstDay(date);
-    setInitialLastDay(lastDay);
   }, [dispatch, startDay]);
 
   useEffect(() => {
@@ -85,18 +90,13 @@ export function useTable({
     const arr = [];
     const localTime = today.toLocaleTimeString('hr-HR').substr(0, 5);
 
-    for (
-      let time = workDayStart;
-      time < workDayEnd;
-      time += appointmentDuration
-    ) {
+    for (let time = terminFrom; time < terminTo; time += duration) {
       let tableColumns = [];
       const formatedTime = formatTime(time);
-      const formatedNextTime = formatTime(time + appointmentDuration);
+      const formatedNextTime = formatTime(time + duration);
       const dateIterator = new Date(firstDay);
 
       tableColumns = weekDays.map((el, index) => {
-        let isInactive = false;
         let isOutOfScope = false;
         let termType = 'free';
 
@@ -105,29 +105,26 @@ export function useTable({
             formatedTime >= workHours.evenDays.end ||
             formatedTime === workHours.evenDays.pause
           ) {
-            isInactive = true;
+            termType = 'inactive';
           }
         } else {
           if (
             formatedTime < workHours.oddDays.start ||
             formatedTime === workHours.oddDays.pause
           ) {
-            isInactive = true;
+            termType = 'inactive';
           }
         }
 
         if (el === 'Nedjelja') {
-          isInactive = true;
+          termType = 'inactive';
         }
 
         if (toISODateString(dateIterator) < toISODateString(today)) {
-          isInactive = true;
+          termType = 'inactive';
         }
 
-        if (
-          toISODateString(dateIterator) < toISODateString(initialFirstDay) ||
-          toISODateString(dateIterator) > toISODateString(initialLastDay)
-        ) {
+        if (toISODateString(dateIterator) < toISODateString(initialFirstDay)) {
           isOutOfScope = true;
         }
 
@@ -136,17 +133,18 @@ export function useTable({
         if (found) {
           termType = found.user;
         }
+        const week = getWeek(dateIterator.getDate(), dateIterator.getMonth());
 
         dateIterator.setDate(dateIterator.getDate() + 1);
 
         return (
           <CalendarCell
             key={`${time}${index}`}
-            isInactive={isInactive}
             isOutOfScope={isOutOfScope}
             type="cell"
             id={cellId}
             termType={termType}
+            week={week}
           />
         );
       });
@@ -166,16 +164,15 @@ export function useTable({
 
     setRows([...arr]);
   }, [
-    workHours,
-    appointmentDuration,
-    workDayStart,
-    workDayEnd,
+    duration,
+    terminFrom,
+    terminTo,
+    initialFirstDay,
     firstDay,
     today,
-    weekDays,
     data,
-    initialFirstDay,
-    initialLastDay,
+    weekDays,
+    workHours,
   ]);
 
   return {

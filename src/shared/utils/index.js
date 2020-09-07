@@ -1,24 +1,5 @@
-// ********************************************
-// ***** Vraća ponedjeljak tekućeg tjedna
-export function getCurrentMonday() {
-  const today = new Date();
+import { daysByMonth } from '../constants';
 
-  // getDay() - nedjelja 0 do subota 6
-  let daysFromMonday = today.getDay() - 1;
-
-  // nedjelja je nama zadnji, a ne prvi dan
-  // sada je -1 i namješzamo je na 6 dana od ponedjeljka
-  if (daysFromMonday < 0) {
-    daysFromMonday = 6;
-  }
-
-  today.setDate(today.getDate() - daysFromMonday);
-
-  return today;
-}
-
-// ********************************************
-// ***** Vraća sutrašnji dan
 export function getTomorrow() {
   const today = new Date();
 
@@ -27,22 +8,29 @@ export function getTomorrow() {
   return today;
 }
 
-// ********************************************
-// ***** Formatira vrijeme termina
+export function getWeek(date, month) {
+  const tempDate = new Date();
+  const newYearsDay = new Date(tempDate.getFullYear(), 0, 1);
+  let dayOfYear = 0;
+  for (let i = 0; i < month; i++) {
+    dayOfYear += daysByMonth[i];
+  }
+  dayOfYear += date - +(7 - newYearsDay.getDay());
+  const week = Math.floor(dayOfYear / (month + 1));
+
+  return week;
+}
+
 export function formatTime(timeFloat) {
   const hour = Math.floor(timeFloat);
   const min = Math.floor((timeFloat - hour) * 60);
   return `${hour < 10 ? '0' : ''}${hour}:${min < 10 ? '0' : ''}${min}`;
 }
 
-// ********************************************
-// ***** Convert date to string 'YYYY-MM-DD'
 export function toISODateString(date) {
   return date.toISOString().substr(0, 10);
 }
 
-// ********************************************
-// ***** Je li broj paran
 export function isEven(n) {
   return n % 2 === 0;
 }

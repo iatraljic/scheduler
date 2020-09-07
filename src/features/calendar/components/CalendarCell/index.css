@@ -1,0 +1,45 @@
+.calendar-table td:hover {
+  cursor: pointer;
+}
+
+.calendar-table td.inactive:hover {
+  cursor: auto;
+}
+
+.calendar-table td.out-of-scope:hover {
+  cursor: auto;
+}
+
+.calendar-table td.other:hover {
+  cursor: auto;
+}
+
+.calendar-table .today,
+.calendar-table .now {
+  background-color: #ddfabb;
+}
+
+.calendar-table .inactive {
+  background-color: #eeeeee;
+}
+
+.calendar-table .out-of-scope {
+  filter: brightness(85%);
+}
+
+.calendar-table .me {
+  background-color: #349cf1;
+}
+
+.calendar-table .other {
+  background-color: #f15959;
+}
+
+.calendar-table .day {
+  font-size: 0.8rem;
+}
+
+.calendar-table .date {
+  font-size: 2rem;
+  color: #000000;
+}

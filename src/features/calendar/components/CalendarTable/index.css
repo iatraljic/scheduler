@@ -1,0 +1,110 @@
+/* **********************************************
+***** CalendarTable */
+.calendar-table-container {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  height: 70vh;
+}
+
+.calendar-table {
+  display: block;
+  width: 80%;
+  height: 60vh;
+  overflow-x: auto;
+}
+
+.calendar-table table {
+  border-collapse: collapse;
+  border: 0.1rem solid #d6d6d6;
+  width: 100%;
+  min-width: 768px;
+}
+
+.calendar-table th,
+.calendar-table td {
+  padding: 0.35rem;
+  vertical-align: text-top;
+  text-align: left;
+  background-color: #fff;
+  color: #777;
+  border: 0.1rem solid #d6d6d6;
+  height: 3rem;
+  width: 13%;
+  min-width: 13%;
+}
+.calendar-table th:first-child {
+  width: 9%;
+  min-width: 9%;
+}
+
+.calendar-table th {
+  vertical-align: bottom;
+  font-weight: normal;
+  position: -webkit-sticky;
+  position: sticky;
+  top: 0;
+  z-index: 2;
+}
+
+.calendar-table th[scope='row'] {
+  position: -webkit-sticky;
+  position: sticky;
+  left: 0;
+  z-index: 1;
+  vertical-align: top;
+  text-align: right;
+  color: #777;
+}
+
+.calendar-table table th:not([scope='row']) {
+  height: 4rem;
+}
+
+.calendar-table table th:not([scope='row']):first-child {
+  left: 0;
+  z-index: 3;
+}
+
+.info-container {
+  display: flex;
+  width: 80%;
+  justify-content: center;
+  margin-top: 5vh;
+  height: 5vh;
+}
+
+.info {
+  display: flex;
+  width: 25%;
+  justify-content: center;
+  margin-bottom: 1%;
+}
+
+.free-appointments,
+.booked-appointments,
+.inactive-appointments,
+.my-appointments {
+  height: 2vh;
+  width: 10%;
+  margin-left: 2%;
+}
+
+.free-appointments {
+  border-style: solid;
+  border-width: 1px;
+}
+
+.booked-appointments {
+  background-color: #f15959;
+}
+
+.inactive-appointments {
+  background-color: #eeeeee;
+}
+
+.my-appointments {
+  background-color: #349cf1;
+}
